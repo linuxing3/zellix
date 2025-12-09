@@ -2,7 +2,6 @@ use yazi.nu *
 use nnn.nu *
 use ai.nu *
 use makefile.nu *
-use bacon.nu *
 use home-manager.nu *
 use terminal.nu *
 use git.nu *
@@ -17,7 +16,6 @@ def main [] {
   init-nnn
   init-ai
   init-makefile
-  init-bacon
   init-hm
   init-terminal
   init-git

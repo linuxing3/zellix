@@ -9,9 +9,13 @@ def setup-files [session] {
   mkdir $path
 }
 
-def main [config_path, filepath?, session?] {
+def main [config_path?, filepath?, session?] {
   # Find the path of the zelix command.
-  let path = $config_path
+  let path = match $config_path {
+    null => ([ "/" "share" "sources" "zellix" ] | path join)
+    _ => $config_path
+  }
+
   $env.ZELLIX_PATH = $path
 
   let session = match $session {
@@ -38,8 +42,8 @@ def main [config_path, filepath?, session?] {
   setup-files $session
 
   # Set Layout And Config Paths for the zellij session
-  let layout_path = $env.ZELLIX_PATH + "/layout.kdl"
-  let config_path = $env.ZELLIX_PATH + "/zellij-config.kdl"
+  let layout_path = $env.ZELLIX_PATH + "/config/zellij/layout.kdl"
+  let config_path = $env.ZELLIX_PATH + "/config/zellij/config.kdl"
 
   # Create the zellij session
   zellij -s $session -n $layout_path -c $config_path
