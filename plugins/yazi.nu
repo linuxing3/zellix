@@ -21,6 +21,10 @@ def main [] {
     exit 0
   }
 
+  # last file dirname
+  let last_dirname = $command | last | path dirname
+  let cd = ":cd " + $last_dirname
+
   # Join the list of filepaths we had above to support writing the paths to helix.
   let command_str = $command | str join " "
 
@@ -29,6 +33,10 @@ def main [] {
 
   zellij action toggle-floating-panes # Select Helix In The System
   zellij action write 27 # Exit To Normal Mode
+
   zellij action write-chars $run # Write actual Command
+  zellij action write 13 # Press Enter to run the command
+
+  zellij action write-chars $cd # Change to last file directory
   zellij action write 13 # Press Enter to run the command
 }
