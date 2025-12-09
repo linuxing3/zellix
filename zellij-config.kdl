@@ -1,0 +1,4 @@
+on_force_close "quit"
+session_serialization false
+theme "catppuccin-mocha"
+pane_frames false

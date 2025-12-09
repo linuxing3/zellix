@@ -1,0 +1,4 @@
+* Install extra packages 
+#+begin_src shell :tangle scripts/install.sh
+    git clone https://github.com/TheEmeraldBee/zellix/wiki
+#+end_src
