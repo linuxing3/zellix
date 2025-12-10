@@ -38,6 +38,9 @@ def main [config_path?, filepath?, session?] {
   $env.ZELLIX_TMP = "/tmp/zellix/" + $session
   $env.ZELLIX_MOD = $env.ZELLIX_PATH + "/plugins"
 
+  # yazi config home
+  $env.YAZI_CONFIG_HOME = $env.ZELLIX_MOD + "/config/yazi"
+
   # zk notebooks
   $env.ZK_NOTEBOOK_DIR = "~/notebooks"
 

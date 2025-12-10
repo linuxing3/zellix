@@ -5,8 +5,9 @@
 # This command can not do anything that would be temporary.
 # Example: Adding an Environment Variable here would not persist.
 export def init-yazi [] {
-  $env.YAZI_CONFIG_HOME = $env.ZELLIX_MOD + "/config/yazi"
 }
+
+use helpers.nu *
 
 def main [] {
 
@@ -31,12 +32,9 @@ def main [] {
   # Set up the string for the actual command.
   let run = ":open " + $command_str
 
-  zellij action toggle-floating-panes # Select Helix In The System
-  zellij action write 27 # Exit To Normal Mode
-
-  zellij action write-chars $run # Write actual Command
-  zellij action write 13 # Press Enter to run the command
-
-  zellij action write-chars $cd # Change to last file directory
-  zellij action write 13 # Press Enter to run the command
+  if $command != "" and $run != "" {
+    send-to-helix $run $cd
+  } else {
+    exit 0
+  }
 }
