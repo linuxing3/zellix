@@ -39,11 +39,12 @@ def main [config_path?, filepath?, session?] {
   $env.ZELLIX_MOD = $env.ZELLIX_PATH + "/plugins"
 
   # zk notebooks
-  $env.ZK_NOTEBOOK_DIR = "~/notebooks" | path expand | str trim
+  $env.ZK_NOTEBOOK_DIR = "~/notebooks"
 
-  # Set up the tmp folder for the zellix session.
-  setup-files $session
+  # nnn bookmarks
+  $env.NNN_BOOKMARK_DIR = "~/.config/nnn/bookmarks"
 
+  # Set up the tmp folder for the zellix session. setup-files $session
   # Set Layout And Config Paths for the zellij session
   let layout_path = $env.ZELLIX_PATH + "/config/zellij/layout.kdl"
   let config_path = $env.ZELLIX_PATH + "/config/zellij/config.kdl"

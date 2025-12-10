@@ -43,6 +43,8 @@ def main [] {
   # Set up the string for the actual command.
   let run = ":open " + $command_str
 
-  command-to-helix $run $cd
+  if $command != "" and $run != "" {
+    command-to-helix $run $cd
+  }
 
 }

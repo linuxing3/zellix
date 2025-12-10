@@ -1,4 +1,4 @@
-export def init-just [] {}
+export def init-justfile [] {}
 
 def main [] {
   let choice = ([ run build ] | input list )
@@ -6,7 +6,7 @@ def main [] {
   let command = match $choice {
     "run" => "just run",
     "build" => "just build",
-    _ => ""
+    _ => "just --list"
   }
   nu -c $command
 }

@@ -12,4 +12,14 @@ layout {
 			args "-c" "nu ($env.ZELLIX_PATH + \"/helix.nu\")"
 		}
 	}
+
+	tab name="shell" {
+	    pane split_direction="vertical" {
+	        pane stacked=true {
+	        	pane command="nu" start_suspended=true
+	        	pane command="zsh" start_suspended=true
+	        	pane command="neomutt" start_suspended=true
+	        }
+	    }
+    }
 }

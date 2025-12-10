@@ -2,6 +2,11 @@ keybinds clear-defaults=true{
     normal {
         // uncomment this and adjust key if using copy_on_select=false
         bind "Alt c" { Copy; }
+        bind "Alt 1" {
+            MessagePlugin "file:~/.config/zellij/plugins/multitask.wasm" {
+                payload "multitask_run"
+            }
+        }
     }
     locked {
         bind "Ctrl g" { SwitchToMode "Normal"; }
@@ -197,8 +202,8 @@ keybinds clear-defaults=true{
               floating true
 
               // Ghost config
-              shell "zsh"      // required ("bash", "fish", "zsh")
-              shell_flag "-ic" // required ("-ic",  "-c",    "-ic")
+              shell "nu"      // required ("bash", "fish", "zsh")
+              // shell_flag "-ic" // required ("-ic",  "-c",    "-ic")
 
               // optional config
               // ghost_launcher "GhostLauncher" // name of the Ghost launcher pane (default GhostLauncher)
