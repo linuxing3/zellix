@@ -2,10 +2,12 @@ use yazi.nu *
 use nnn.nu *
 use ai.nu *
 use makefile.nu *
+use justfile.nu *
 use home-manager.nu *
 use terminal.nu *
 use git.nu *
 use tangle.nu *
+use zk.nu *
 
 # Use this file to initialize any plugins and systems you need!
 # 
@@ -16,9 +18,10 @@ def main [] {
   init-nnn
   init-ai
   init-makefile
+  init-justfile
   init-hm
   init-terminal
   init-git
-  init-git
   init-tangle
+  init-zk
 }

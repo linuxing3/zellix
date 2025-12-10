@@ -44,14 +44,6 @@ t = ":sh zellij run -c -f -x 10% -y 10% --width 80% --height 80% -- nu $ZELLIX_M
 a = ":sh zellij run -c -f -x 10% -y 10% --width 80% --height 80% -- nu $ZELLIX_MOD/ai.nu"
 ```
 
-## Example Configuration
-Personally, I use nix with this, but the configuration is still very simple.
-Look at the [example](example), which I use for my daily driver with helix using 
-[my dotfile configuration](https://github.com/TheEmeraldBee/PixelNix) with nixos and nix-darwin!
-
-# Creating Plugins
-For information on how to create plugins, check out the [wiki](https://github.com/TheEmeraldBee/zellix/wiki)!
-
 # Why does this exist?
 At the time of writing this, there is no plugin system for helix, and I dislike the configuration of neovim,
 so I created this to satiate my desire for more than just an editor systems that can still be controlled through my editor.
@@ -63,10 +55,6 @@ Put in a pull request adding a link to a repository containing the code, and I'l
 - **Crickets** Get writing some awesome stuff.
 
 # Contributing
-At this time, the [example](example) directory is not accepting pull requests,
-as it is my personal usage of this system. But the core itself is welcome to changes to support more custom systems, as well
-as eventually gaining some form of library to better support easier creation of plugins!
-
 # WARNING
 At this time, this is a very rough implementation that hasn't been fully tested. 
 If you choose to use this, please report **any** bugs you find during usage, and I will fix them ASAP.

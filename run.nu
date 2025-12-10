@@ -12,7 +12,7 @@ def setup-files [session] {
 def main [config_path?, filepath?, session?] {
   # Find the path of the zelix command.
   let path = match $config_path {
-    null => ([ "/" "share" "sources" "zellix" ] | path join)
+    null => ([ $env.HOME ".config" "zellix" ] | path join)
     _ => $config_path
   }
 
@@ -37,6 +37,9 @@ def main [config_path?, filepath?, session?] {
   $env.ZELLIX_SESSION = $session
   $env.ZELLIX_TMP = "/tmp/zellix/" + $session
   $env.ZELLIX_MOD = $env.ZELLIX_PATH + "/plugins"
+
+  # zk notebooks
+  $env.ZK_NOTEBOOK_DIR = "~/notebooks" | path expand | str trim
 
   # Set up the tmp folder for the zellix session.
   setup-files $session

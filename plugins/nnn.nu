@@ -8,6 +8,18 @@ export def init-nnn [] {
    $env.NNN_OPENNER = "hx"
 }
 
+export def command-to-helix [ command: string, cd: string ] {
+  
+  zellij action toggle-floating-panes # Select Helix In The System
+  zellij action write 27 # Exit To Normal Mode
+
+  zellij action write-chars $command # Write actual Command
+  zellij action write 13 # Press Enter to run the command
+
+  zellij action write-chars $cd # Change to last file directory
+  zellij action write 13 # Press Enter to run the command
+} 
+
 def main [] {
 
   # Open nnn at the current path
@@ -31,13 +43,6 @@ def main [] {
   # Set up the string for the actual command.
   let run = ":open " + $command_str
 
+  command-to-helix $run $cd
 
-  zellij action toggle-floating-panes # Select Helix In The System
-  zellij action write 27 # Exit To Normal Mode
-
-  zellij action write-chars $run # Write actual Command
-  zellij action write 13 # Press Enter to run the command
-
-  zellij action write-chars $cd # Change to last file directory
-  zellij action write 13 # Press Enter to run the command
 }
