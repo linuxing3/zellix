@@ -2,14 +2,29 @@ keybinds clear-defaults=true{
     normal {
         // uncomment this and adjust key if using copy_on_select=false
         bind "Alt c" { Copy; }
+        // run project tasks
         bind "Alt 1" {
             MessagePlugin "file:~/.config/zellij/plugins/multitask.wasm" {
                 payload "multitask_run"
             }
         }
+        bind "Enter" {
+            // Passthru `Enter`.
+            WriteChars "\u{000D}";
+            // Invoke autolock to immediately assess proper lock state.
+            // (This provides a snappier experience compared to
+            // solely relying on `reaction_seconds` to elapse.)
+            MessagePlugin "autolock" {};
+        }
     }
     locked {
         bind "Ctrl g" { SwitchToMode "Normal"; }
+        bind "Alt z" {
+            // Disable the autolock plugin.
+            MessagePlugin "autolock" {payload "disable";};
+            // Unlock Zellij.
+            SwitchToMode "Normal";
+        }
     }
     resize {
         bind "Ctrl n" { SwitchToMode "Normal"; }
@@ -165,6 +180,26 @@ keybinds clear-defaults=true{
         bind "x" { CloseFocus; SwitchToMode "Normal"; }
     }
     shared_except "locked" {
+        bind "Alt z" {
+            // Disable the autolock plugin.
+            MessagePlugin "autolock" {payload "disable";};
+            // Lock Zellij.
+            SwitchToMode "Locked";
+        }
+
+        bind "Ctrl h" {
+            MoveFocusOrTab "Left";
+        }
+        bind "Ctrl l" {
+            MoveFocusOrTab "Right";
+        }
+        bind "Ctrl j" {
+            MoveFocus "Down";
+        }
+        bind "Ctrl k" {
+            MoveFocus "Up";
+        }
+
         bind "Ctrl g" { SwitchToMode "Locked"; }
         bind "Ctrl q" { Quit; }
         // bind "Alt f" { ToggleFloatingPanes; }
@@ -271,6 +306,10 @@ keybinds clear-defaults=true{
 
     // EFWMC Customization
     shared {
+        bind "Alt Shift z" {
+            // Enable the autolock plugin.
+            MessagePlugin "autolock" {payload "enable";};
+        }
         // New tab
         // Previously: Alt + n (in helix: select_next_sibling)
         bind "Alt t" { NewTab; SwitchToMode "Normal"; }
@@ -279,7 +318,7 @@ keybinds clear-defaults=true{
         // New floating
         bind "Alt g" { ToggleFloatingPanes; }
         // Close
-        bind "Alt z" { CloseFocus; SwitchToMode "Normal"; }
+        bind "Alt x" { CloseFocus; SwitchToMode "Normal"; }
 
         // Previously: Ctrl + o (in helix: jump_backward)
         bind "Ctrl s" { SwitchToMode "Session"; }
@@ -303,20 +342,6 @@ keybinds clear-defaults=true{
 
         // Not a remap, just for ease of use
         bind "Alt f" { ToggleFocusFullscreen; SwitchToMode "Normal"; }
-
-        // Open hx editor to right pane
-        bind "Alt 1" { NewPane "Right"; SwitchToMode "Normal"; WriteChars "hx"; Write 13; }
-        // Open hx editor in new tab
-        bind "Alt 2" { NewTab; SwitchToMode "Normal"; WriteChars "hx"; Write 13; }
-
-        // Open nnn file explorer in new tab
-        bind "Alt 3" { NewTab; SwitchToMode "Normal"; WriteChars "nnn"; Write 13; }
-
-        // Open w3m web explorer in new tab
-        bind "Alt 4" { NewTab; SwitchToMode "Normal"; WriteChars "w3m"; Write 13; }
-
-        // Open neomutt email client in new tab
-        bind "Alt 5" { NewTab; SwitchToMode "Normal"; WriteChars "neomutt"; Write 13; }
 
         // Previously: Ctrl + b (in helix: move_page_up)
         bind "Alt 9" { SwitchToMode "Tmux"; }
@@ -354,9 +379,16 @@ plugins {
     welcome-screen location="zellij:session-manager" {
         welcome_screen true
     }
+    autolock location="file:~/.config/zellij/plugins/zellij-autolock.wasm" {
+        is_enabled true
+        triggers "hx|nvim|vim|git|fzf|zoxide|atuin"
+        reaction_seconds "0.3"
+        print_to_log true
+    }
 }
 
 load_plugins {
+    autolock
 }
 
 ui {

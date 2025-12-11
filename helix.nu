@@ -1,12 +1,11 @@
 try { nu ($env.ZELLIX_MOD + "/init.nu") }
 
-# Open helix at the given filepath.
-let path = match $env.ZELLIX_OPEN {
-  null => ""
-  _ => $env.ZELLIX_OPEN
+# Open helix or the given filepath.
+if $env.ZELLIX_OPEN == "" {
+  hx 
+} else {
+  hx $env.ZELLIX_OPEN
 }
-
-hx $path
 
 # Run exit code for the selected modules
 # This is a try block because exit.nu shouldn't be required

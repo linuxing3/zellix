@@ -9,7 +9,7 @@ def setup-files [session] {
   mkdir $path
 }
 
-def main [config_path?, filepath?, session?] {
+def main [ filepath?, session?, config_path? ] {
   # Find the path of the zelix command.
   let path = match $config_path {
     null => ([ $env.HOME ".config" "zellix" ] | path join)
@@ -27,8 +27,8 @@ def main [config_path?, filepath?, session?] {
   }
 
   # Allow for zellix to function like the `hx` command, accepting a filepath if wanted.
-  let filepath = match $filepath {
-    null => ("./"),
+  let filepath: string = match $filepath {
+    null => "",
     _ => $filepath
   }
   $env.ZELLIX_OPEN = $filepath
@@ -56,7 +56,7 @@ def main [config_path?, filepath?, session?] {
   zellij -s $session -n $layout_path -c $config_path
 
   # Delete The Session Folder
-  rm -r $env.ZELLIX_TMP
+  try { rm -r $env.ZELLIX_TMP}
 
   # Thank the user!
   print $"(ansi cb)Thank you for using Zellix!(ansi reset)"
