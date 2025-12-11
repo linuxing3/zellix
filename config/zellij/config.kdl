@@ -3,7 +3,7 @@ keybinds clear-defaults=true{
         // uncomment this and adjust key if using copy_on_select=false
         bind "Alt c" { Copy; }
         // run project tasks
-        bind "Alt 1" {
+        bind "Alt r" {
             MessagePlugin "file:~/.config/zellij/plugins/multitask.wasm" {
                 payload "multitask_run"
             }
@@ -18,7 +18,7 @@ keybinds clear-defaults=true{
         }
     }
     locked {
-        bind "Ctrl g" { SwitchToMode "Normal"; }
+        // bind "Ctrl g" { SwitchToMode "Normal"; }
         bind "Alt z" {
             // Disable the autolock plugin.
             MessagePlugin "autolock" {payload "disable";};
@@ -90,7 +90,7 @@ keybinds clear-defaults=true{
         bind "Tab" { ToggleTab; }
     }
     scroll {
-        // bind "Ctrl s" { SwitchToMode "Normal"; }
+        bind "Ctrl s" { SwitchToMode "Normal"; }
         bind "e" { EditScrollback; SwitchToMode "Normal"; }
         bind "s" { SwitchToMode "EnterSearch"; SearchInput 0; }
         bind "Ctrl c" { ScrollToBottom; SwitchToMode "Normal"; }
@@ -104,7 +104,7 @@ keybinds clear-defaults=true{
         bind "Alt c" { Copy; }
     }
     search {
-        // bind "Ctrl s" { SwitchToMode "Normal"; }
+        bind "Ctrl s" { SwitchToMode "Normal"; }
         bind "Ctrl c" { ScrollToBottom; SwitchToMode "Normal"; }
         bind "j" "Down" { ScrollDown; }
         bind "k" "Up" { ScrollUp; }
@@ -131,7 +131,7 @@ keybinds clear-defaults=true{
         bind "Esc" { UndoRenamePane; SwitchToMode "Pane"; }
     }
     session {
-        // bind "Ctrl o" { SwitchToMode "Normal"; }
+        bind "Ctrl o" { SwitchToMode "Normal"; }
         bind "Ctrl e" { SwitchToMode "Scroll"; }
         bind "d" { Detach; }
         bind "w" {
@@ -158,7 +158,7 @@ keybinds clear-defaults=true{
     }
     tmux {
         bind "[" { SwitchToMode "Scroll"; }
-        // bind "Ctrl b" { Write 2; SwitchToMode "Normal"; }
+        bind "Ctrl b" { Write 2; SwitchToMode "Normal"; }
         bind "\"" { NewPane "Down"; SwitchToMode "Normal"; }
         bind "%" { NewPane "Right"; SwitchToMode "Normal"; }
         bind "z" { ToggleFocusFullscreen; SwitchToMode "Normal"; }
@@ -179,6 +179,8 @@ keybinds clear-defaults=true{
         bind "Space" { NextSwapLayout; }
         bind "x" { CloseFocus; SwitchToMode "Normal"; }
     }
+
+    // Put conflicting keys here
     shared_except "locked" {
         bind "Alt z" {
             // Disable the autolock plugin.
@@ -187,35 +189,36 @@ keybinds clear-defaults=true{
             SwitchToMode "Locked";
         }
 
-        bind "Ctrl h" {
-            MoveFocusOrTab "Left";
-        }
-        bind "Ctrl l" {
-            MoveFocusOrTab "Right";
-        }
-        bind "Ctrl j" {
-            MoveFocus "Down";
-        }
-        bind "Ctrl k" {
-            MoveFocus "Up";
-        }
+        bind "Ctrl h" { MoveFocusOrTab "Left"; }
+        bind "Ctrl l" { MoveFocusOrTab "Right"; }
+        bind "Ctrl j" { MoveFocus "Down"; }
+        bind "Ctrl k" { MoveFocus "Up"; }
+        // bind "Alt h" "Alt Left" { MoveFocusOrTab "Left"; }
+        // bind "Alt l" "Alt Right" { MoveFocusOrTab "Right"; }
+        // bind "Alt j" "Alt Down" { MoveFocus "Down"; }
+        // bind "Alt k" "Alt Up" { MoveFocus "Up"; }
 
-        bind "Ctrl g" { SwitchToMode "Locked"; }
-        bind "Ctrl q" { Quit; }
-        // bind "Alt f" { ToggleFloatingPanes; }
-        // bind "Alt n" { NewPane; }
-        bind "Alt h" "Alt Left" { MoveFocusOrTab "Left"; }
-        bind "Alt l" "Alt Right" { MoveFocusOrTab "Right"; }
-        bind "Alt j" "Alt Down" { MoveFocus "Down"; }
-        bind "Alt k" "Alt Up" { MoveFocus "Up"; }
-        bind "Alt =" "Alt +" { Resize "Increase"; }
-        bind "Alt -" { Resize "Decrease"; }
-        bind "Alt [" { PreviousSwapLayout; }
-        bind "Alt ]" { NextSwapLayout; }
+        // Previously: Alt + n (in helix: select_next_sibling)
+        bind "Alt n" { NewTab; SwitchToMode "Normal"; }
 
-        // Plugins
+        // Previously: Ctrl + o (in helix: jump_backward)
+        bind "Ctrl o" { SwitchToMode "Session"; }
+  
+        // Previously: Ctrl + s (in helix: save_selection)
+        bind "Ctrl s" { SwitchToMode "Scroll"; }
+  
+        // Previously: Alt + i (in helix: shrink_selection)
+        bind "Alt i" { MoveTab "Left"; }
+  
+        // Previously: Alt + o (in helix: expand_selection)
+        bind "Alt o" { MoveTab "Right"; }
+
+        // bind "Ctrl g" { SwitchToMode "Locked"; }
+        bind "Alt q" { Quit; }
+
+        // ---------------- Plugins ----------------
         // room plugin to switch tab
-        bind "Alt r" {
+        bind "Alt 9" {
           LaunchOrFocusPlugin "file:~/.config/zellij/plugins/room.wasm" {
               floating true
               ignore_case true
@@ -289,10 +292,10 @@ keybinds clear-defaults=true{
         bind "Ctrl n" { SwitchToMode "Resize"; }
     }
     shared_except "scroll" "locked" {
-        // bind "Ctrl s" { SwitchToMode "Scroll"; }
+        bind "Ctrl s" { SwitchToMode "Scroll"; }
     }
     shared_except "session" "locked" {
-        // bind "Ctrl o" { SwitchToMode "Session"; }
+        bind "Ctrl o" { SwitchToMode "Session"; }
     }
     shared_except "tab" "locked" {
         bind "Ctrl t" { SwitchToMode "Tab"; }
@@ -301,37 +304,25 @@ keybinds clear-defaults=true{
         bind "Ctrl m" { SwitchToMode "Move"; }
     }
     shared_except "tmux" "locked" {
-        // bind "Ctrl b" { SwitchToMode "Tmux"; }
+        bind "Ctrl b" { SwitchToMode "Tmux"; }
     }
 
     // EFWMC Customization
     shared {
+        // Enable the autolock plugin.
         bind "Alt Shift z" {
-            // Enable the autolock plugin.
             MessagePlugin "autolock" {payload "enable";};
         }
-        // New tab
-        // Previously: Alt + n (in helix: select_next_sibling)
-        bind "Alt t" { NewTab; SwitchToMode "Normal"; }
-        // New pane
-        bind "Alt m" { NewPane; }
+
+        // Full screen
+        bind "Alt 0" { ToggleFocusFullscreen; SwitchToMode "Normal"; }
+
         // New floating
         bind "Alt g" { ToggleFloatingPanes; }
+
         // Close
         bind "Alt x" { CloseFocus; SwitchToMode "Normal"; }
 
-        // Previously: Ctrl + o (in helix: jump_backward)
-        bind "Ctrl s" { SwitchToMode "Session"; }
-  
-        // Previously: Ctrl + s (in helix: save_selection)
-        bind "Ctrl y" { SwitchToMode "Scroll"; }
-  
-        // Previously: Alt + i (in helix: shrink_selection)
-        bind "Alt q" { MoveTab "Left"; }
-  
-        // Previously: Alt + o (in helix: expand_selection)
-        bind "Alt w" { MoveTab "Right"; }
-  
         // New Pane by side and bottom
         bind "Alt d" { NewPane "Down"; SwitchToMode "Normal"; }
         bind "Alt v" { NewPane "Right"; SwitchToMode "Normal"; }
@@ -339,12 +330,6 @@ keybinds clear-defaults=true{
         // Quick swith tab
         bind "Alt H" { GoToPreviousTab; SwitchToMode "Normal"; }
         bind "Alt L" { GoToNextTab; SwitchToMode "Normal"; }
-
-        // Not a remap, just for ease of use
-        bind "Alt f" { ToggleFocusFullscreen; SwitchToMode "Normal"; }
-
-        // Previously: Ctrl + b (in helix: move_page_up)
-        bind "Alt 9" { SwitchToMode "Tmux"; }
 
     }
 
