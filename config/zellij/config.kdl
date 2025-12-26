@@ -390,7 +390,8 @@ session_serialization false
 pane_frames false
 
 // theme "catppuccin-mocha"
-theme "tokyo-night-dark"
+// theme "tokyo-night-dark"
+theme "gruvbox-dark"
 
 default_mode "normal"
 

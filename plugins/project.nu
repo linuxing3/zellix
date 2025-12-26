@@ -10,9 +10,10 @@ use helpers.nu *
 
 def main [] {
   let project: string = select-project
+  let rpath = realpath ($project)
 
   if $project != "" {
-    send-to-helix $":cd ($project)"
+    send-to-helix "" $"($rpath)"
   } else {
     exit 0
   }

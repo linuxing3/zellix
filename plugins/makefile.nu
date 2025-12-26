@@ -5,7 +5,7 @@ def main [] {
   print $"You chose: ($choice)"
   let command = match $choice {
     "config" => "make config",
-    "config.h" => "make clean && make config.h",
+    "config.h" => "make clean; make config.h",
     "build" => "make build",
     "clean" => "make clean",
     "install" => "sudo make install",

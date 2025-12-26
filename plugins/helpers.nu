@@ -8,7 +8,7 @@ export def send-to-helix [ command: string, cd?: string ] {
   zellij action write 13 # Press Enter to run the command
 
   if $cd != "" {
-    zellij action write-chars $cd # Change to last file directory
+    zellij action write-chars $":cd ($cd)" # Change to last file directory
     zellij action write 13 # Press Enter to run the command
   }
 } 
