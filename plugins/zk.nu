@@ -1,6 +1,8 @@
 export def init-zk [] {
 }
 
+use helpers.nu *
+
 def generate-category [ ] {
   
   let alias: string = nu -c $"cd ($env.ZK_NOTEBOOK_DIR) ; open .zk/config.toml | get alias | columns | input list"
@@ -34,20 +36,12 @@ def generate-command [ ] {
   $command_list
 }
 
-def run-in-helix [ command: string ] {
-  
-  zellij action toggle-floating-panes # Select Helix In The System
-  zellij action write 27 # Exit To Normal Mode
-  zellij action write-chars $command # Write actual Command
-  zellij action write 13 # Press Enter to run the command
-} 
-
 def main [] {
   let command_list: list = generate-command
   let command_str: string = $command_list | str join " "
   print $"(ansi cb)Command: ($command_str)(ansi reset)"
   nu -c $command_str
 
-  run-in-helix ":cd ~/notebooks"
+  send-to-helix "" "~/notebooks"
 
 }

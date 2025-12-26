@@ -25,7 +25,7 @@ def main [] {
 
   # last file dirname
   let last_dirname = $command | last | path dirname
-  let cd = ":cd " + $last_dirname
+  let cd = $last_dirname
 
   # Join the list of filepaths we had above to support writing the paths to helix.
   let command_str = $command | str join " "
