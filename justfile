@@ -1,0 +1,4 @@
+run:
+    st
+build:
+    lxterminal

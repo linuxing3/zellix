@@ -1,12 +1,12 @@
 export def init-justfile [] {}
 
+
+def select-action [ ] {
+  let action = just --list --working-directory . --justfile justfile | each {|l| $l | split row "\n"} | skip 1 | first | drop 1 | each { |l| $"just ($l)" } | input list
+  $"($action)"
+}
+
 def main [] {
-  let choice = ([ run build ] | input list )
-  print $"You chose: ($choice)"
-  let command = match $choice {
-    "run" => "just run",
-    "build" => "just build",
-    _ => "just --list"
-  }
-  nu -c $command
+  let action: string = select-action
+  nu -c $action
 }

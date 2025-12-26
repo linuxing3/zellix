@@ -3,8 +3,11 @@ keybinds clear-defaults=true{
         // uncomment this and adjust key if using copy_on_select=false
         bind "Alt c" { Copy; }
         // run project tasks
+        bind "Alt m" {
+            Run "start_multitask"
+        }
         bind "Alt r" {
-            MessagePlugin "file:~/.config/zellij/plugins/multitask.wasm" {
+            MessagePlugin {
                 payload "multitask_run"
             }
         }
@@ -219,8 +222,16 @@ keybinds clear-defaults=true{
         bind "Alt q" { Quit; }
 
         // ---------------- Plugins ----------------
+       // monocle plugin on top of the current pane and open any results on top of itself
+       bind "Alt 4" { LaunchPlugin "file:~/.config/zellij/plugins/monocle.wasm" {
+               in_place true
+               kiosk true
+           };
+           SwitchToMode "Normal"
+       }
+
         // room plugin to switch tab
-        bind "Alt 9" {
+        bind "Alt 5" {
           LaunchOrFocusPlugin "file:~/.config/zellij/plugins/room.wasm" {
               floating true
               ignore_case true
@@ -229,7 +240,7 @@ keybinds clear-defaults=true{
         }
 
         // zbuffers: zoxide buffers as emacs vertico
-        bind "Alt y" {
+        bind "Alt 6" {
           LaunchOrFocusPlugin "file:~/.config/zellij/plugins/zbuffers.wasm" {
               floating true
           }
@@ -237,7 +248,7 @@ keybinds clear-defaults=true{
         }
 
         // ghost native plugin (with default zellij cwd)
-        bind "Alt (" {
+        bind "Alt 7" {
           LaunchOrFocusPlugin "file:~/.config/zellij/plugins/ghost.wasm" {
               floating true
 
@@ -261,27 +272,20 @@ keybinds clear-defaults=true{
        }
 
        // harpoon plugin to add tabs to a list
-       bind "Alt )" {
+       bind "Alt 8" {
            LaunchOrFocusPlugin "file:~/.config/zellij/plugins/harpoon.wasm" {
                floating true; move_to_focused_tab true;
            }
        }
 
        // monocle plugin in a new floating pane and open any results in a new tiled/floating pane
-       bind "Alt :" {
+       bind "Alt 9" {
            LaunchOrFocusPlugin "file:~/.config/zellij/plugins/monocle.wasm" {
                floating true
            };
            SwitchToMode "Normal"
        }
 
-       // monocle plugin on top of the current pane and open any results on top of itself
-       bind "Alt ;" { LaunchPlugin "file:~/.config/zellij/plugins/monocle.wasm" {
-               in_place true
-               kiosk true
-           };
-           SwitchToMode "Normal"
-       }
     }
 
     shared_except "normal" "locked" {
@@ -318,12 +322,13 @@ keybinds clear-defaults=true{
 
         // Full screen
         bind "Alt 0" { ToggleFocusFullscreen; SwitchToMode "Normal"; }
+        bind "Alt f" { ToggleFocusFullscreen; SwitchToMode "Normal"; }
 
         // New floating
         bind "Alt g" { ToggleFloatingPanes; }
 
         // Close
-        bind "Alt x" { CloseFocus; SwitchToMode "Normal"; }
+        bind "Alt w" { CloseFocus; SwitchToMode "Normal"; }
 
         // New Pane by side and bottom
         bind "Alt d" { NewPane "Down"; SwitchToMode "Normal"; }
