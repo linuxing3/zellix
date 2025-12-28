@@ -2,7 +2,7 @@ export def init-project [] {
 }
 
 def select-project [ ] {
-  let project: string = nu -c $"ls ($env.NNN_BOOKMARK_DIR) | get name | input list"
+  let project: string = nu -c $"ls -al ($env.NNN_BOOKMARK_DIR) | get name | input list"
   $"($project)"
 }
 
@@ -14,6 +14,7 @@ def main [] {
 
   if $project != "" {
     send-to-helix "" $"($rpath)"
+    helix-file-picker 
   } else {
     exit 0
   }

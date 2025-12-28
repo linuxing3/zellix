@@ -6,7 +6,7 @@ keybinds clear-defaults=true{
         bind "Alt m" {
             Run "start_multitask"
         }
-        bind "Alt r" {
+        bind "Alt 1" {
             MessagePlugin {
                 payload "multitask_run"
             }
@@ -222,6 +222,11 @@ keybinds clear-defaults=true{
         bind "Alt q" { Quit; }
 
         // ---------------- Plugins ----------------
+       // playbook plugin to insert command to pane
+        bind "Alt 3" { LaunchOrFocusPlugin "file:~/.config/zellij/plugins/zellij-playbooks.wasm" {
+            autodetect_filter_mode true
+            }
+        }
        // monocle plugin on top of the current pane and open any results on top of itself
        bind "Alt 4" { LaunchPlugin "file:~/.config/zellij/plugins/monocle.wasm" {
                in_place true
@@ -376,10 +381,14 @@ plugins {
         reaction_seconds "0.3"
         print_to_log true
     }
+    zellij-playbooks-pipe location="file:~/.config/zellij/plugins/zellij-playbooks.wasm" {
+        pipe_mode true
+    }
 }
 
 load_plugins {
     autolock
+    zellij-playbooks-pipe
 }
 
 ui {

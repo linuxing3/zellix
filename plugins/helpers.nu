@@ -12,3 +12,9 @@ export def send-to-helix [ command: string, cd?: string ] {
     zellij action write 13 # Press Enter to run the command
   }
 } 
+
+export def helix-file-picker [ ] {
+  zellij action write 27 # Exit To Normal Mode
+  zellij action write-chars ":e ." # Write actual Command
+  zellij action write 13 # Press Enter to run the command
+} 

@@ -1,7 +1,18 @@
 layout {
-	shell_tab
-	editor_tab
+	// tabs
+	tab name="editor" {
+		 pane {
+			name "editor"
+			command "nu"
+			args "-c" "nu ($env.ZELLIX_PATH + \"/helix.nu\")"
+		}
+	}
+	shell_tab name="shell"
+	tab name="dashboard" {
+		pane
+	}
 
+	// templates
 	tab_template name="shell_tab" {
 	  pane split_direction="vertical" {
 		  pane borderless=true command="zsh" name="shell" {
