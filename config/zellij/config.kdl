@@ -700,18 +700,16 @@ load_plugins {
     zellij-playbooks-pipe
 }
 ui {
-    pane_frames {
-        rounded_corners true
-    }
+    pane_frames false
 }
 on_force_close "quit"
 session_serialization false
 pane_frames false
 // theme "catppuccin-mocha"
 // theme "tokyo-night-dark"
-theme "gruvbox-dark"
+// theme "gruvbox-light-hard"
 default_mode "normal"
-default_shell "nu"
+default_shell "zsh"
 default_cwd "~/.config/home-manager"
 mouse_mode true
 copy_command "xclip"
