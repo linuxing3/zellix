@@ -3,10 +3,10 @@ layout {
     tab name="editor" {
         editor_pane
     }
-    tab name="dashboard" {
+    tab name="nushell" {
         pane
     }
-    shell_tab name="shell"
+    shell_tab name="zsh"
     // templates
     tab_template name="shell_tab" {
         pane split_direction="vertical" {

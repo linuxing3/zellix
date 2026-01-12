@@ -709,7 +709,7 @@ pane_frames false
 // theme "tokyo-night-dark"
 // theme "gruvbox-light-hard"
 default_mode "normal"
-default_shell "zsh"
+default_shell "nu"
 default_cwd "~/.config/home-manager"
 mouse_mode true
 copy_command "xclip"
