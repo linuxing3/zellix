@@ -707,12 +707,12 @@ session_serialization false
 pane_frames false
 // theme "catppuccin-mocha"
 // theme "tokyo-night-dark"
-// theme "gruvbox-light-hard"
+theme "gruvbox-dark-hard"
 default_mode "normal"
-default_shell "nu"
-default_cwd "~/.config/home-manager"
+default_shell "zsh"
+default_cwd "~/"
 mouse_mode true
-copy_command "xclip"
+copy_command "wl-copy"
 copy_clipboard "system"
 copy_on_select true
 session_name "workspace"
