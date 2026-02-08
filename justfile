@@ -1,4 +1,2 @@
 run:
-    st
-build:
-    lxterminal
+    st -e zlx

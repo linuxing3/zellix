@@ -2,7 +2,7 @@ export def init-justfile [] {}
 
 
 def select-action [ ] {
-  let action = just --list --working-directory . --justfile justfile | each {|l| $l | split row "\n"} | flatten | compact --empty | skip 1 | each { |l| $"just ($l)" } | input list
+  let action = just -l -d . -f justfile | each {|l| $l | split row "\n"} | flatten | compact --empty | each { |l| $"just ($l)" } | input list
   $"($action)"
 }
 
