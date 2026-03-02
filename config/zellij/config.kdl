@@ -542,7 +542,7 @@ keybinds clear-defaults=true {
             LaunchOrFocusPlugin "file:~/.config/zellij/plugins/ghost.wasm" {
                 floating true
                 // Ghost config
-                shell "nu"
+                shell "zsh"
                 // required ("bash", "fish", "zsh")                // shell_flag "-ic" // required ("-ic",  "-c",    "-ic")
                 // optional config
                 // ghost_launcher "GhostLauncher" // name of the Ghost launcher pane (default GhostLauncher)

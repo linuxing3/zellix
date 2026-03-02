@@ -45,7 +45,7 @@ def main [ filepath?, session?, config_path? ] {
   $env.ZK_NOTEBOOK_DIR = "~/notebooks"
 
   # nnn bookmarks
-  $env.NNN_BOOKMARK_DIR = "~/.config/nnn/bookmarks"
+  $env.NNN_BOOKMARK_DIR = "/bookmarks"
 
   # Set up the tmp folder for the zellix session. setup-files $session
   # Set Layout And Config Paths for the zellij session
