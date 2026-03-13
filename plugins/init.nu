@@ -9,12 +9,15 @@ use terminal.nu *
 use git.nu *
 use tangle.nu *
 use zk.nu *
+use create-project.nu *
+use logger-minimal.nu *
 
 # Use this file to initialize any plugins and systems you need!
 # 
 # The main use of this should be to
 # create files that would be used for config/data.
 def main [] {
+  init-logger
   init-yazi
   init-nnn
   init-project
@@ -26,4 +29,5 @@ def main [] {
   init-git
   init-tangle
   init-zk
+  init-create-project
 }

@@ -4,15 +4,6 @@ keybinds clear-defaults=true {
         bind "Alt c" {
             Copy
         }
-        // run project tasks
-        bind "Alt m" {
-            Run "start_multitask"
-        }
-        bind "Alt 1" {
-            MessagePlugin {
-                payload "multitask_run"
-            }
-        }
         bind "Enter" {
             // Passthru `Enter`.
             WriteChars "\r"
@@ -22,6 +13,14 @@ keybinds clear-defaults=true {
             MessagePlugin "autolock" {
 
             }
+        }
+        bind "Alt Tab" {
+            GoToNextTab
+            SwitchToMode "Normal"
+        }
+        bind "Alt Shift Tab" {
+            GoToPreviousTab
+            SwitchToMode "Normal"
         }
     }
     locked {
@@ -127,7 +126,7 @@ keybinds clear-defaults=true {
         }
     }
     move {
-        bind "Ctrl m" {
+        bind "Alt m" {
             SwitchToMode "Normal"
         }
         bind "n" "Tab" {
@@ -492,7 +491,7 @@ keybinds clear-defaults=true {
         bind "Ctrl s" {
             SwitchToMode "Scroll"
         }
-        bind "Ctrl m" {
+        bind "Alt m" {
             SwitchToMode "Move"
         }
         // Previously: Alt + i (in helix: shrink_selection)
@@ -598,7 +597,7 @@ keybinds clear-defaults=true {
         }
     }
     shared_except "move" "locked" {
-        bind "Ctrl m" {
+        bind "Alt m" {
             SwitchToMode "Move"
         }
     }
@@ -608,7 +607,24 @@ keybinds clear-defaults=true {
         }
     }
     // EFWMC Customization
+    // Key legend (custom Alt bindings):
+    // Alt-| : split horizontally (NewPane "Right")
+    // Alt-\ : split vertically (NewPane "Down")
+    // Alt-+ / Alt-= : increase focused pane size
+    // Alt-- : decrease focused pane size
+    // Alt-m : enter/exit move mode
+    // Alt-Tab : toggle pane <-> tab mode (inside those modes)
     shared {
+        bind "Ctrl Shift c" {
+            Copy
+        }
+        bind "Ctrl Shift v" {
+            Write 27
+            WriteChars "v"
+        }
+        bind "Alt [" {
+            SwitchToMode "Scroll"
+        }
         // Enable the autolock plugin.
         bind "Alt Shift z" {
             MessagePlugin "autolock" {
@@ -633,13 +649,22 @@ keybinds clear-defaults=true {
             CloseFocus
             SwitchToMode "Normal"
         }
-        // New Pane by side and bottom
-        bind "Alt d" {
+        // New Pane splits
+        bind "Alt |" {
+            NewPane "Right"
+            SwitchToMode "Normal"
+        }
+        bind "Alt \\" {
             NewPane "Down"
             SwitchToMode "Normal"
         }
-        bind "Alt v" {
-            NewPane "Right"
+        // Resize focused pane
+        bind "Alt +" "Alt =" {
+            Resize "Increase"
+            SwitchToMode "Normal"
+        }
+        bind "Alt -" {
+            Resize "Decrease"
             SwitchToMode "Normal"
         }
         // Quick swith tab
@@ -707,12 +732,12 @@ session_serialization false
 pane_frames false
 // theme "catppuccin-mocha"
 // theme "tokyo-night-dark"
-theme "gruvbox-dark-hard"
+// theme "gruvbox-light-hard"
 default_mode "normal"
 default_shell "zsh"
-default_cwd "~/"
+default_cwd "~/.config/home-manager"
 mouse_mode true
-copy_command "wl-copy"
+copy_command "xclip -selection clipboard -in"
 copy_clipboard "system"
 copy_on_select true
 session_name "workspace"
@@ -723,4 +748,3 @@ env {
     EDITOR "hx"
     TERM "xterm-256color"
 }
-

@@ -3,34 +3,24 @@ layout {
     tab name="editor" {
         pane split_direction="vertical" {
             
-            // 中部：编辑器 (70%高度)
-            pane size="70%" {
+            pane size="75%" {
                 editor_pane
             }
             
-            pane size="30%" split_direction="horizontal" {
-                // 左侧：AI聊天面板
-                pane size="66%" {
-                    pane name="ai_chat" borderless=true {
-                        command "nu"
-                        args "-c" "nu ($env.ZELLIX_MOD + '/ai.nu')"
-                    }
-                }
-                
-                // 右侧：终端面板
-                pane size="44%" {
-                    pane name="terminal" borderless=true {
-                        command "zsh"
-                        args "-i"
-                    }
-                }
+            pane name="terminal" borderless=true {
+                start_suspended true
+                command "zsh"
+                args "-i"
             }
         }
         
     }
     
+
     tab name="www" {
-        pane borderless=true command="elinks" name="www" {
+        pane borderless=true name="www" {
+            command "elinks"
+            start_suspended true
             args "https://duckduckgo.org"
         }
     }
@@ -41,9 +31,11 @@ layout {
     tab_template name="shell_tab" {
         pane split_direction="vertical" {
             pane size="70%" borderless=true command="zsh" name="shell" {
+                start_suspended true
                 args "-i"
             }
             pane size="30%" borderless=true command="zsh" name="shell" {
+                start_suspended true
                 args "-i"
             }
         }
