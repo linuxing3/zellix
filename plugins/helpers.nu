@@ -1,22 +1,30 @@
 
 export def send-to-helix [ command: string, cd?: string ] {
-  
-  zellij action toggle-floating-panes # Select Helix In The System
+  # Focus Helix pane directly to avoid flashing floating panes during project switch
+  zellij action move-focus up
   zellij action write 27 # Exit To Normal Mode
 
   zellij action write-chars $command # Write actual Command
   zellij action write 13 # Press Enter to run the command
 
   if $cd != "" {
-    zellij action write-chars $":cd ($cd)" # Change to last file directory
+    let escaped = ($cd | str replace -a '\' '\\' | str replace -a '"' '\"')
+    zellij action write-chars $":cd \"($escaped)\"" # Change to last file directory
     zellij action write 13 # Press Enter to run the command
+
+    # Restart right-side AI pane to sync cwd after project switch.
+    # Enabled by default; set ZELLIX_SYNC_AI_PANE_ON_PROJECT_SWITCH=false to opt out.
+    if (($env.ZELLIX_SYNC_AI_PANE_ON_PROJECT_SWITCH? | default true) == true) {
+      zellij action move-focus right
+      zellij action close-pane
+      ^zellij action new-pane -d right --cwd $cd -- nu -c $"nu ($env.ZELLIX_PATH + '/plugins/ai.nu')"
+      zellij action move-focus left
+    }
   }
 } 
 
 export def helix-file-picker [ ] {
-  zellij action write 27 # Exit To Normal Mode
-  zellij action write-chars ":e ." # Write actual Command
-  zellij action write 13 # Press Enter to run the command
+  send-to-helix ":e ." ""
 } 
 
 # Environment Management Utilities
