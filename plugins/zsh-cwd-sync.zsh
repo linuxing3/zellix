@@ -2,6 +2,8 @@ autoload -Uz add-zsh-hook
 
 typeset -g _ZELLIX_LAST_SYNCED_PWD=""
 typeset -g _ZELLIX_SYNCING=0
+typeset -g _ZELLIX_ACCEPT_LINE_PATCHED=0
+typeset -g _ZELLIX_LAST_PUBLISHED_AI_PWD=""
 
 _zellix_debug_enabled() {
   case "${ZELLIX_DEBUG_INPUT_SYNC:-}" in
@@ -57,3 +59,47 @@ _zellix_sync_helix_cwd() {
 }
 
 add-zsh-hook chpwd _zellix_sync_helix_cwd
+
+_zellix_publish_ai_cwd() {
+  [[ "${ZELLIX_AI_PANE:-}" == "1" ]] || return 0
+  [[ -n "${ZELLIX_TMP:-}" ]] || return 0
+  [[ "$PWD" == "$_ZELLIX_LAST_PUBLISHED_AI_PWD" ]] && return 0
+
+  mkdir -p -- "$ZELLIX_TMP" 2>/dev/null || return 0
+  print -r -- "$PWD" >| "$ZELLIX_TMP/ai-dev-cwd" 2>/dev/null || return 0
+  _ZELLIX_LAST_PUBLISHED_AI_PWD="$PWD"
+}
+
+add-zsh-hook chpwd _zellix_publish_ai_cwd
+add-zsh-hook precmd _zellix_publish_ai_cwd
+
+_zellix_sync_to_ai_dev_cwd() {
+  (( _ZELLIX_SYNCING )) && return 0
+  [[ -n "${ZELLIJ:-}" ]] || return 0
+  [[ -n "${ZELLIX_TMP:-}" ]] || return 0
+
+  local ai_cwd_file="$ZELLIX_TMP/ai-dev-cwd"
+  [[ -r "$ai_cwd_file" ]] || return 0
+
+  local ai_dir
+  ai_dir="$(<"$ai_cwd_file")"
+  [[ -n "$ai_dir" ]] || return 0
+  [[ -d "$ai_dir" ]] || return 0
+  [[ "$PWD" == "$ai_dir" ]] && return 0
+
+  builtin cd -- "$ai_dir" || return 0
+  _zellix_debug_log "synced shell pane cwd to ai dev: $ai_dir"
+}
+
+_zellix_accept_line() {
+  _zellix_sync_to_ai_dev_cwd
+  zle _zellix_original_accept_line
+}
+
+if [[ -o interactive ]] && (( !_ZELLIX_ACCEPT_LINE_PATCHED )); then
+  if zle -l 2>/dev/null | grep -qx 'accept-line'; then
+    zle -A accept-line _zellix_original_accept_line
+    zle -N accept-line _zellix_accept_line
+    _ZELLIX_ACCEPT_LINE_PATCHED=1
+  fi
+fi

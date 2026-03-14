@@ -1,2 +1,5 @@
 run:
-    st -e zlx
+    nix run
+
+build:
+    nix build

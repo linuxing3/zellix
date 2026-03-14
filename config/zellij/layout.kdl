@@ -29,23 +29,23 @@ layout {
     // tab template
     tab_template name="shell_tab" {
         pane split_direction="vertical" {
-            pane size="70%" borderless=true command="zsh" name="shell" {
+            pane size="70%" borderless=true command="nu" name="shell" {
                 start_suspended true
-                args "-i"
+                args "-c" "nu ($env.ZELLIX_PATH + '/plugins/editor-shell.nu')"
             }
             pane size="30%" name="jobs" {
                 pane stacked=true {
-                    pane name="run" command="zsh" {
+                    pane name="run" command="nu" {
                         start_suspended true
-                        args "-ic" "just run"
+                        args "-c" "nu ($env.ZELLIX_PATH + '/plugins/editor-shell.nu') 'just run'"
                     }
-                    pane name="test" command="zsh" {
+                    pane name="test" command="nu" {
                         start_suspended true
-                        args "-ic" "just test"
+                        args "-c" "nu ($env.ZELLIX_PATH + '/plugins/editor-shell.nu') 'just test'"
                     }
-                    pane name="build" command="zsh" {
+                    pane name="build" command="nu" {
                         start_suspended true
-                        args "-ic" "just build"
+                        args "-c" "nu ($env.ZELLIX_PATH + '/plugins/editor-shell.nu') 'just build'"
                     }
                 }
             }
