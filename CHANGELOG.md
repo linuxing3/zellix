@@ -1,5 +1,15 @@
 # Zellix Changelog
 
+## v2.0.1 - Documentation Sync (2026-03-14)
+
+### Documentation
+- Updated `run.nu` usage across docs to match current arguments:
+  - `[open-path] [session-name] [config-path]`
+- Fixed installation snippets to reference `run.nu` (instead of `run.sh`)
+- Corrected PATH symlink examples (`ln -s $(pwd)/run.nu ~/.local/bin/zellix`)
+- Updated AI plugin wording to reflect `codex` CLI usage
+- Synced both English and Chinese docs (`README*`, `AGENTS*`, `QUICKSTART.md`)
+
 ## v2.0 - Project Management Enhancements (2026-03-02)
 
 ### New Features

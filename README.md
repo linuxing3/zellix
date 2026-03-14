@@ -36,30 +36,34 @@ Zellix has been significantly enhanced with new features for better project mana
 Under the hood, it creates a special zellij session, focused on using auto-closing panes to support windows in helix.
 
 ## Installation
-If you don't want to run the directory directly, you can install it using `ln` and `chmod`. First, navigate to the directory where `run.nu` is located.
+If you don't want to run from this directory directly, you can install it with `ln` and `chmod`. First, navigate to the directory where `run.nu` is located.
 Run 
 ```nu
-chmod +x run.sh
+chmod +x run.nu
 ```
 in your terminal to make the file runnable. Next, use 
 ```nu
-ln -s run.sh ~/.local/bin/zellix`
+ln -s $(pwd)/run.nu ~/.local/bin/zellix
 ```
-to link run.nu to your local bin directory, then, to run, just use `zellix path/to/module` to run instead of having to use `nu ./run.nu path/to/module`.
+to link `run.nu` into your local bin directory. Then you can run `zellix` directly (or `zellix path/to/file`) instead of `nu ./run.nu`.
 
 ## Usage
 In order to actually run the system, you must run the shell file with the following parameters.
-`module`: The location of the actual module path, this is just a folder, which will be added to the environment to support using any module folder.
-`path`: An *optional* path for helix to open into. This is the same as typing `hx {file}`
+`open-path`: Optional file/path for Helix to open. This is the same as typing `hx {file}`.
+`session-name`: Optional zellij session name.
+`config-path`: Optional path to an alternative zellix config directory.
 
 A simple example run, if currently inside of the cloned repository, you can run the program like this 
 ```nu
-nu ./run.nu example/
+nu ./run.nu
 ```
-This will run the code with the example folder as the module.
+You can also open a specific file at startup:
+```nu
+nu ./run.nu README.md
+```
 
 If you just want to try out zellix, clone the repository, ensure you have `zellij` and `helix` installed.
-Then, if you want to try out my configuration, you will need at least one of either `yazi` or `aichat`.
+Then, if you want to try out my configuration, you will need `yazi` and optionally `codex` (for the AI pane).
 You'll want to edit your helix configuration to use the following in a keybind, or you can run it in helix by pasting it.
 `:sh zellij run -c -f -x 10% -y 10% --width 80% --height 80% -- nu $ZELLIX_MOD/yazi.nu` Will run the yazi program, and replacing `yazi.nu` with `ai.nu`
 will run the AI Module.
@@ -118,7 +122,7 @@ Create `.zellix/project.nu` in your project root:
 | `logger.nu` | Structured logging and error handling |
 | `helpers.nu` | Environment management utilities |
 | `yazi.nu` | File manager integration |
-| `ai.nu` | AI chat interface |
+| `ai.nu` | Codex CLI agent pane |
 | `git.nu` | Git integration (lazygit) |
 | `makefile.nu` | Make command runner |
 | `justfile.nu` | Just task runner |

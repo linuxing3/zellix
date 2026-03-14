@@ -31,7 +31,7 @@ ln -s $(pwd)/run.nu ~/.local/bin/zellix
 
 ### 3. First Run
 ```bash
-# Start zellix with example module
+# Start zellix
 nu ./run.nu
 
 # Or if linked to PATH:
@@ -115,7 +115,7 @@ Create `.zellix/project.nu`:
 
 ### AI Integration
 - `Space + a`: Open AI chat interface
-- Requires `aichat` or similar AI tool
+- Uses `codex` CLI (if unavailable, install and ensure it is in `PATH`)
 
 ### Environment Management
 ```bash

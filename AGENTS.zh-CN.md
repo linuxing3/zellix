@@ -13,7 +13,7 @@
 新增插件逻辑优先放在 `plugins/`，启动/编排逻辑保持在 `run.nu`。
 
 ## 构建、测试与开发命令
-- `nu ./run.nu <module-path> [open-path]`：本地启动 Zellix 会话。
+- `nu ./run.nu [open-path] [session-name] [config-path]`：本地启动 Zellix 会话。
 - `nu test_core_functionality.nu`：运行核心流程检查。
 - `nu test_project_workflow.nu`：验证项目切换与环境变量行为。
 - `nu test_all_improvements.nu`：执行更广泛的集成检查。

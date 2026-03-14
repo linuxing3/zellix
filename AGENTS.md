@@ -13,7 +13,7 @@ This repository is a NuShell-driven Helix + Zellij workflow toolkit.
 Prefer adding new plugin logic under `plugins/` and keeping launch/orchestration behavior in `run.nu`.
 
 ## Build, Test, and Development Commands
-- `nu ./run.nu <module-path> [open-path]`: start a Zellix session locally.
+- `nu ./run.nu [open-path] [session-name] [config-path]`: start a Zellix session locally.
 - `nu test_core_functionality.nu`: run core workflow checks.
 - `nu test_project_workflow.nu`: validate project switching and env behavior.
 - `nu test_all_improvements.nu`: run broader integration-style checks.

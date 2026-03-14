@@ -40,27 +40,31 @@ Zellix 针对项目管理与开发流程进行了显著增强：
 
 在终端中运行：
 ```nu
-chmod +x run.sh
+chmod +x run.nu
 ```
 使文件可执行。然后使用：
 ```nu
-ln -s run.sh ~/.local/bin/zellix`
+ln -s $(pwd)/run.nu ~/.local/bin/zellix
 ```
-将 `run.nu` 链接到本地 bin 目录。之后可通过 `zellix path/to/module` 运行，而不是每次都执行 `nu ./run.nu path/to/module`。
+将 `run.nu` 链接到本地 bin 目录。之后可直接运行 `zellix`（或 `zellix path/to/file`），而不是每次都执行 `nu ./run.nu`。
 
 ## 用法
 运行系统时需要以下参数：
-`module`：模块路径（即一个目录），会加入环境以支持模块化插件目录。
-`path`：可选，要在 Helix 中打开的路径，等同于 `hx {file}`。
+`open-path`：可选，要在 Helix 中打开的文件/路径，等同于 `hx {file}`。
+`session-name`：可选，zellij 会话名。
+`config-path`：可选，替代默认 `~/.config/zellix` 的配置路径。
 
 如果当前位于克隆后的仓库目录，可直接运行：
 ```nu
-nu ./run.nu example/
+nu ./run.nu
 ```
-这会使用 `example/` 作为模块目录启动。
+也可以启动时直接打开某个文件：
+```nu
+nu ./run.nu README.md
+```
 
 如果你只想体验 zellix，请先克隆仓库，并确认已安装 `zellij` 与 `helix`。
-若要使用作者示例配置，至少需要安装 `yazi` 或 `aichat` 之一。
+若要使用作者示例配置，建议安装 `yazi`，AI 面板则需要 `codex` 命令可用。
 
 可在 Helix 配置里添加如下键位，或直接在 Helix 命令行粘贴执行：
 `:sh zellij run -c -f -x 10% -y 10% --width 80% --height 80% -- nu $ZELLIX_MOD/yazi.nu`
@@ -117,7 +121,7 @@ nu $ZELLIX_MOD/create-project.nu
 | `logger.nu` | 结构化日志与错误处理 |
 | `helpers.nu` | 环境管理工具 |
 | `yazi.nu` | 文件管理器集成 |
-| `ai.nu` | AI 聊天界面 |
+| `ai.nu` | Codex CLI 智能体面板 |
 | `git.nu` | Git 集成（lazygit） |
 | `makefile.nu` | Make 命令运行器 |
 | `justfile.nu` | Just 任务运行器 |
