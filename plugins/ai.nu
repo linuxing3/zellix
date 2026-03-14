@@ -1,5 +1,5 @@
 export def init-ai [] {}
 
 def main [] {
-  zsh -ic opencode
+  zsh -ic codex
 }

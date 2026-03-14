@@ -1,16 +1,15 @@
 layout {
     // antigravity风格的AI编辑器布局
-    tab name="editor" {
+    tab name="ai dev" focus=true {
         pane split_direction="vertical" {
             
-            pane size="75%" {
+            pane size="50%" {
                 editor_pane
             }
             
-            pane name="terminal" borderless=true {
-                start_suspended true
-                command "zsh"
-                args "-i"
+            pane name="terminal" borderless=true focus=true {
+                command "nu"
+                args "-c" "nu ($env.ZELLIX_PATH + '/plugins/ai.nu')"
             }
         }
         
@@ -34,9 +33,21 @@ layout {
                 start_suspended true
                 args "-i"
             }
-            pane size="30%" borderless=true command="zsh" name="shell" {
-                start_suspended true
-                args "-i"
+            pane size="30%" name="jobs" {
+                pane stacked=true {
+                    pane name="run" command="zsh" {
+                        start_suspended true
+                        args "-ic" "just run"
+                    }
+                    pane name="test" command="zsh" {
+                        start_suspended true
+                        args "-ic" "just test"
+                    }
+                    pane name="build" command="zsh" {
+                        start_suspended true
+                        args "-ic" "just build"
+                    }
+                }
             }
         }
         pane size=1 borderless=true {
@@ -58,4 +69,3 @@ layout {
         }
     }
 }
-

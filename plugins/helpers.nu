@@ -1,11 +1,7 @@
 
 export def send-to-helix [ command: string, cd?: string ] {
-  # Focus Helix pane directly to avoid flashing floating panes during project switch
-  zellij action move-focus up
+  zellij action toggle-floating-panes # Select Helix In The System
   zellij action write 27 # Exit To Normal Mode
-
-  zellij action write-chars $command # Write actual Command
-  zellij action write 13 # Press Enter to run the command
 
   if $cd != "" {
     let escaped = ($cd | str replace -a '\' '\\' | str replace -a '"' '\"')
@@ -20,6 +16,11 @@ export def send-to-helix [ command: string, cd?: string ] {
       ^zellij action new-pane -d right --cwd $cd -- nu -c $"nu ($env.ZELLIX_PATH + '/plugins/ai.nu')"
       zellij action move-focus left
     }
+  }
+
+  if $command != "" {
+    zellij action write-chars $command # Write actual command after :cd
+    zellij action write 13 # Press Enter to run the command
   }
 } 
 

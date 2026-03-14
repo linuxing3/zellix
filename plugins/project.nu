@@ -13,11 +13,15 @@ def select-project [] {
   # Get list of bookmark names (just basenames, no table formatting)
   try {
     # Check if NNN_BOOKMARK_DIR exists, otherwise use fallback
-    let bookmark_dir = if ($env.NNN_BOOKMARK_DIR? != null and ($env.NNN_BOOKMARK_DIR | path exists)) {
-      $env.NNN_BOOKMARK_DIR
+    let configured_bookmark_dir = if ($env.NNN_BOOKMARK_DIR? != null) {
+      ($env.NNN_BOOKMARK_DIR | path expand)
     } else {
-      # Fallback to home directory bookmarks
-      "~/bookmarks" | path expand
+      ""
+    }
+    let bookmark_dir = if ($configured_bookmark_dir != "" and ($configured_bookmark_dir | path exists)) {
+      $configured_bookmark_dir
+    } else {
+      "~/bookmarks" | path expand # Fallback to home directory bookmarks
     }
     
     if not ($bookmark_dir | path exists) {
@@ -26,7 +30,27 @@ def select-project [] {
       mkdir $bookmark_dir
     }
     
-    let project_list = (ls $bookmark_dir | each {|x| $x.name | path basename} | to text)
+    let project_entries = (
+      ls $bookmark_dir
+      | where type in ["dir", "symlink"]
+      | each {|x|
+          let name = ($x.name | path basename)
+          let resolved = (try { realpath $x.name } catch { "" })
+          if ($resolved != "" and ($resolved | path exists)) {
+            { name: $name, path: $resolved }
+          } else {
+            null
+          }
+        }
+      | where $it != null
+    )
+
+    if ($project_entries | is-empty) {
+      print $"(ansi yellow)No projects found in ($bookmark_dir). Add symlinks or directories there.(ansi reset)"
+      return ""
+    }
+
+    let project_list = ($project_entries | get name | to text)
     
     # Use fzf to select a project (clean output without table borders)
     let selected = ($project_list | fzf --prompt="Select project: " | str trim)
@@ -35,7 +59,12 @@ def select-project [] {
     if ($selected | is-empty) {
       ""
     } else {
-      realpath ($bookmark_dir)/($selected)
+      (
+        $project_entries
+        | where name == $selected
+        | get path.0?
+        | default ""
+      )
     }
   } catch {|err|
     print $"(ansi red)Error selecting project: ($err)(ansi reset)"
@@ -84,7 +113,7 @@ def load-project-config [project_path: string] {
   
   if ($config_path | path exists) {
     try {
-      let config = (open $config_path)
+      let config = (open --raw $config_path | from nuon)
       print $"(ansi green)Loaded project config from ($config_path)(ansi reset)"
       $config
     } catch {|err|
@@ -125,7 +154,6 @@ def main [] {
     }
   }
   
-  # Send to helix and open file picker
-  send-to-helix "" $project_path
-  helix-file-picker
+  # Send to helix and open file picker in one pass to avoid double floating-pane toggles.
+  send-to-helix ":e ." $project_path
 }

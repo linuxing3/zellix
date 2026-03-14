@@ -3,8 +3,8 @@ export def init-sh[] {
 
 def main [] {
 
-  # Quit floating to shell
-  zellij action toggle-floating-panes
+  # Focus Helix pane without toggling floating panes
+  zellij action move-focus up
 
   # write shell command
   zellij action write-chars ":"

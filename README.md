@@ -70,6 +70,9 @@ if you want to try how i use it, the following will add keybinds for both yazi a
 f = "file_picker"
 t = ":sh zellij run -c -f -x 10% -y 10% --width 80% --height 80% -- nu $ZELLIX_MOD/yazi.nu"
 
+[keys.normal.space.p]
+p = ":sh zellij run -c -- nu $ZELLIX_MOD/project.nu"
+
 [keys.normal.space.l]
 a = ":sh zellij run -c -f -x 10% -y 10% --width 80% --height 80% -- nu $ZELLIX_MOD/ai.nu"
 ```
@@ -138,8 +141,28 @@ Zellix sets the following environment variables:
 - `ZELLIX_MOD`: Path to plugins directory
 - `ZELLIX_TMP`: Temporary directory for the session
 - `ZELLIX_OPEN`: File to open in helix
+- `ZELLIX_THEME_MODE`: Resolved theme mode (`dark` or `light`) for this session
+- `ZELLIX_HELIX_THEME`: Helix theme applied for this session
 - `ZELLIX_LOG_LEVEL`: Logging level (debug, info, warn, error, fatal)
 - `ZELLIX_LOG_FILE`: Path to log file
+
+Theme override variables (optional):
+- `ZLX_THEME_MODE`: Force mode to `dark` or `light`
+- `ZLX_HELIX_THEME_DARK` / `ZLX_HELIX_THEME_LIGHT`: Helix theme names
+- `ZLX_ZELLIJ_THEME_DARK` / `ZLX_ZELLIJ_THEME_LIGHT`: Zellij theme names
+- `ZLX_APPLY_ST_THEME`: `true` to force runtime recolor hook even when `$TERM` is not `st*`
+- `ZLX_ST_BG_DARK` / `ZLX_ST_BG_LIGHT`: st background colors (hex)
+- `ZLX_ST_FG_DARK` / `ZLX_ST_FG_LIGHT`: st foreground colors (hex)
+- `ZLX_ST_CURSOR_DARK` / `ZLX_ST_CURSOR_LIGHT`: st cursor colors (hex)
+
+Live helper command:
+- `nu ~/.config/zellix/zlx-theme.nu auto` (detect and apply st runtime colors)
+- `nu ~/.config/zellix/zlx-theme.nu dark`
+- `nu ~/.config/zellix/zlx-theme.nu light`
+
+Zellij shortcuts:
+- `Alt-t`: toggle zlx dark/light mode (persists for next zlx session)
+- `Alt-Shift-t`: toggle and restart current zlx session (applies zellij/helix theme immediately)
 
 ## Logging
 
