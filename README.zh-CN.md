@@ -44,23 +44,23 @@ chmod +x run.nu
 ```
 使文件可执行。然后使用：
 ```nu
-ln -s $(pwd)/run.nu ~/.local/bin/zellix
+ln -s $(pwd)/run.nu ~/.local/bin/zlx
 ```
-将 `run.nu` 链接到本地 bin 目录。之后可直接运行 `zellix`（或 `zellix path/to/file`），而不是每次都执行 `nu ./run.nu`。
+将 `run.nu` 链接到本地 bin 目录。之后可直接运行 `zlx`（或 `zlx path/to/file`），旧的 `zellix` 名称依旧兼容。
 
 ## 用法
-运行系统时需要以下参数：
-`open-path`：可选，要在 Helix 中打开的文件/路径，等同于 `hx {file}`。
-`session-name`：可选，zellij 会话名。
-`config-path`：可选，替代默认 `~/.config/zellix` 的配置路径。
+使用 `zlx`（或兼容的 `zellix`）命令，配合下列可选标志启动会话：
+- `-d <项目目录>`：指定项目目录（默认当前目录）。
+- `-s <会话名>`：设置或复用 zellij 会话名（默认生成随机名称）。
+- `-c <配置根路径>`：使用自定义的 zellix 配置目录（默认 `~/.config/zellix`）。
+- `-l <布局文件>`：载入指定的 zellij 布局文件（默认 `config/zellij/layout.kdl`）。
+- 其余位置参数按顺序作为 Helix 需要打开的文件/路径（等价于 `hx path/to/file`）。
 
-如果当前位于克隆后的仓库目录，可直接运行：
-```nu
-nu ./run.nu
-```
-也可以启动时直接打开某个文件：
-```nu
-nu ./run.nu README.md
+示例：
+```bash
+zlx
+zlx README.md
+zlx -d ~/projects/my-app -s work-session -l config/zellij/layout_gruvbox.kdl
 ```
 
 如果你只想体验 zellix，请先克隆仓库，并确认已安装 `zellij` 与 `helix`。
@@ -144,6 +144,7 @@ Zellix 会设置以下环境变量：
 - `ZELLIX_MOD`：插件目录路径
 - `ZELLIX_TMP`：会话临时目录
 - `ZELLIX_OPEN`：在 helix 中打开的文件
+- `ZELLIX_PROJECT_DIR`：当前项目根目录（与 `-d` 选项同步）
 - `ZELLIX_THEME_MODE`：本会话解析后的主题模式（`dark` 或 `light`）
 - `ZELLIX_HELIX_THEME`：本会话应用的 Helix 主题
 - `ZELLIX_LOG_LEVEL`：日志级别（debug、info、warn、error、fatal）
@@ -166,6 +167,7 @@ Zellix 会设置以下环境变量：
 Zellij 快捷键：
 - `Alt-t`：切换 zlx 深色/浅色模式（对下次 zlx 会话生效）
 - `Alt-Shift-t`：切换并重启当前 zlx 会话（立即应用 zellij/helix 主题）
+- `Alt-e`：在当前 tab 左侧新增一个 `nnn` 文件浏览器面板，选中文件或目录后同步更新 Helix/终端的项目根
 
 ## 日志
 
@@ -201,8 +203,8 @@ nu -c "use plugins/logger.nu *; get-logs 20"
 测试改进时可运行：
 ```bash
 # 运行核心功能测试
-nu test_core_functionality.nu
+nu tests/test_core_functionality.nu
 
 # 测试特定组件
-nu simple_test.nu
+nu tests/simple_test.nu
 ```

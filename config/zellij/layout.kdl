@@ -3,11 +3,12 @@ layout {
     tab name="ai dev" focus=true {
         pane split_direction="vertical" {
             
-            pane size="50%" {
+            pane name="editor" focus=true size="50%" {
                 editor_pane
             }
             
-            pane name="terminal" borderless=true focus=true {
+            pane name="agent" {
+                start_suspended true
                 command "nu"
                 args "-c" "nu ($env.ZELLIX_PATH + '/plugins/ai.nu')"
             }
@@ -15,6 +16,8 @@ layout {
         
     }
     
+    
+    shell_tab name="shell"
 
     tab name="www" {
         pane borderless=true name="www" {
@@ -23,8 +26,6 @@ layout {
             args "https://duckduckgo.org"
         }
     }
-    
-    shell_tab name="shell"
     
     // tab template
     tab_template name="shell_tab" {
@@ -46,6 +47,10 @@ layout {
                     pane name="build" command="nu" {
                         start_suspended true
                         args "-c" "nu ($env.ZELLIX_PATH + '/plugins/editor-shell.nu') 'just build'"
+                    }
+                    pane name="env" command="nu" {
+                        start_suspended true
+                        args "-c" "nu ($env.ZELLIX_PATH + '/plugins/editor-shell.nu') 'just env'"
                     }
                 }
             }

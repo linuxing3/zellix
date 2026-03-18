@@ -625,6 +625,10 @@ keybinds clear-defaults=true {
         bind "Alt [" {
             SwitchToMode "Scroll"
         }
+        bind "Alt Shift backspace" {
+            CloseFocus
+            SwitchToMode "Normal"
+        }
         // Enable the autolock plugin.
         bind "Alt Shift z" {
             MessagePlugin "autolock" {
@@ -632,10 +636,6 @@ keybinds clear-defaults=true {
             }
         }
         // Full screen
-        bind "Alt 0" {
-            ToggleFocusFullscreen
-            SwitchToMode "Normal"
-        }
         bind "Alt f" {
             ToggleFocusFullscreen
             SwitchToMode "Normal"
@@ -643,6 +643,13 @@ keybinds clear-defaults=true {
         // New floating
         bind "Alt g" {
             ToggleFloatingPanes
+        }
+        // File browser
+        bind "Alt e" {
+            Run "nu" "~/.config/zellix/plugins/nnn.nu" {
+                direction "Down"
+            }
+            SwitchToMode "Normal"
         }
         // Close
         bind "Alt w" {
@@ -735,7 +742,7 @@ pane_frames false
 // theme "gruvbox-light-hard"
 default_mode "normal"
 default_shell "zsh"
-default_cwd "~/.config/home-manager"
+default_cwd "~/"
 mouse_mode true
 copy_command "xclip -selection clipboard -in"
 copy_clipboard "system"

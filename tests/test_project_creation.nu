@@ -42,7 +42,7 @@ def main [] {
   print "✅ Project configuration created"
   
   # Test loading the config
-  source plugins/project.nu
+  source ../plugins/project.nu
   let loaded_config = (load-project-config $test_dir)
   
   if ($loaded_config != null) {

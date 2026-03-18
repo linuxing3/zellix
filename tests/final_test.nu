@@ -7,7 +7,7 @@ def main [] {
   
   # Test 1: Helpers can be loaded
   try {
-    source plugins/helpers.nu
+    source ../plugins/helpers.nu
     print "✅ Helpers.nu loaded successfully"
   } catch {|err|
     print $"❌ Failed to load helpers.nu: ($err)"
@@ -15,7 +15,7 @@ def main [] {
   
   # Test 2: Project.nu can be loaded
   try {
-    source plugins/project.nu
+    source ../plugins/project.nu
     print "✅ Project.nu loaded successfully"
     
     # Test init function

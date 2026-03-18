@@ -43,23 +43,23 @@ chmod +x run.nu
 ```
 in your terminal to make the file runnable. Next, use 
 ```nu
-ln -s $(pwd)/run.nu ~/.local/bin/zellix
+ln -s $(pwd)/run.nu ~/.local/bin/zlx
 ```
-to link `run.nu` into your local bin directory. Then you can run `zellix` directly (or `zellix path/to/file`) instead of `nu ./run.nu`.
+to link `run.nu` into your local bin directory. This provides the `zlx` launcher (the previous `zellix` name still works for compatibility), so you can run `zlx` (or `zlx path/to/file`) instead of `nu ./run.nu`.
 
 ## Usage
-In order to actually run the system, you must run the shell file with the following parameters.
-`open-path`: Optional file/path for Helix to open. This is the same as typing `hx {file}`.
-`session-name`: Optional zellij session name.
-`config-path`: Optional path to an alternative zellix config directory.
+Run the launcher via `zlx` (or the legacy `zellix`) and pass the following options as needed:
+- `-d <project-dir>`: start the session in a specific project directory (defaults to the current directory).
+- `-s <session-name>`: reuse or pin a zellij session name (random characters are generated if omitted).
+- `-c <config-root>`: point to a different zellix configuration root (defaults to `~/.config/zellix`).
+- `-l <layout-file>`: load a custom zellij layout (defaults to `config/zellij/layout.kdl` inside the config root).
+Any additional positional argument is treated as a path for Helix to open (same as `hx path/to/file`).
 
-A simple example run, if currently inside of the cloned repository, you can run the program like this 
-```nu
-nu ./run.nu
-```
-You can also open a specific file at startup:
-```nu
-nu ./run.nu README.md
+Example runs:
+```bash
+zlx
+zlx README.md
+zlx -d ~/projects/my-app -s dev-session -l config/zellij/layout_gruvbox.kdl
 ```
 
 If you just want to try out zellix, clone the repository, ensure you have `zellij` and `helix` installed.
@@ -145,6 +145,7 @@ Zellix sets the following environment variables:
 - `ZELLIX_MOD`: Path to plugins directory
 - `ZELLIX_TMP`: Temporary directory for the session
 - `ZELLIX_OPEN`: File to open in helix
+- `ZELLIX_PROJECT_DIR`: Project root currently driving the layout and helper panes
 - `ZELLIX_THEME_MODE`: Resolved theme mode (`dark` or `light`) for this session
 - `ZELLIX_HELIX_THEME`: Helix theme applied for this session
 - `ZELLIX_LOG_LEVEL`: Logging level (debug, info, warn, error, fatal)
@@ -167,6 +168,7 @@ Live helper command:
 Zellij shortcuts:
 - `Alt-t`: toggle zlx dark/light mode (persists for next zlx session)
 - `Alt-Shift-t`: toggle and restart current zlx session (applies zellij/helix theme immediately)
+- `Alt-e`: open a persistent `nnn` file browser on the leftmost pane and sync Helix/shell roots for the selected directory or file
 
 ## Logging
 
@@ -202,8 +204,8 @@ If you choose to use this, please report **any** bugs you find during usage, and
 To test improvements:
 ```bash
 # Run core functionality tests
-nu test_core_functionality.nu
+nu tests/test_core_functionality.nu
 
 # Test specific components
-nu simple_test.nu
+nu tests/simple_test.nu
 ```

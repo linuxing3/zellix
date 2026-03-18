@@ -1,0 +1,43 @@
+---
+description: 用户系统环境铁律 — 所有对话必须遵守
+alwaysApply: true
+---
+
+# 铁律：系统环境
+
+## 语言
+- 默认用中文回答，除非用户特别指定其他语言
+- 代码、commit message、变量名保持英文
+- 技术术语保持英文原文，可附中文解释
+
+## 操作系统与架构
+- UOS（基于 Debian/Deepin），aarch64 架构
+- 桌面管理器：oxwm（基于 Xorg）
+- 截屏工具：maim
+- 视频播放：mpv
+
+## 配置管理
+- 使用 Nix / home-manager 管理系统配置
+- home-manager 配置路径：~/.config/home-manager
+
+## 编辑器与终端
+- 默认编辑器：Helix（hx）
+- 终端复用器：Zellij
+- 终端模拟器：st / kitty
+- Zellix 工作流：~/.config/zellix（NuShell 驱动的 Helix + Zellij 插件系统）
+
+## 邮件
+- mu、msmtp、isync、neomutt
+
+## 版本控制
+- git、gh（GitHub CLI）、gog、lazygit
+
+## 密钥管理
+- GnuPG、agenix、pass（password-store）
+
+## 网络与远程
+- tailscaled 默认启用，用于隧道端口映射
+- claude-to-im 默认启用，用于远程代码指令（Telegram 桥接）
+
+## AI 代理优先级
+- zeroclaw → nullclaw → ironclaw（按此优先顺序使用）

@@ -6,7 +6,7 @@ def main [] {
   print "Testing enhanced project.nu integration..."
   
   # Source the project.nu file
-  source plugins/project.nu
+  source ../plugins/project.nu
   
   # Test init-project
   print "\n1. Testing init-project:"

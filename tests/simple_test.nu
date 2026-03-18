@@ -5,7 +5,7 @@
 def main [] {
   print "Testing helpers.nu..."
   
-  source plugins/helpers.nu
+  source ../plugins/helpers.nu
   
   # Test load-env-from-record
   let test_env = { TEST_VAR: "test_value" }

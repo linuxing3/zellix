@@ -13,12 +13,12 @@ This repository is a NuShell-driven Helix + Zellij workflow toolkit.
 Prefer adding new plugin logic under `plugins/` and keeping launch/orchestration behavior in `run.nu`.
 
 ## Build, Test, and Development Commands
-- `nu ./run.nu [open-path] [session-name] [config-path]`: start a Zellix session locally.
-- `nu test_core_functionality.nu`: run core workflow checks.
-- `nu test_project_workflow.nu`: validate project switching and env behavior.
-- `nu test_all_improvements.nu`: run broader integration-style checks.
-- `nu simple_test.nu`: fast sanity test during iteration.
-- `nu verify_improvements.nu`: regression verification pass.
+- `zlx [-d <project-dir>] [-s <session-name>] [-c <config-root>] [-l <layout-file>] [path-to-open]`: start a Zellix session locally (the older `zellix` command and `nu ./run.nu` remain available for compatibility).
+- `nu tests/test_core_functionality.nu`: run core workflow checks.
+- `nu tests/test_project_workflow.nu`: validate project switching and env behavior.
+- `nu tests/test_all_improvements.nu`: run broader integration-style checks.
+- `nu tests/simple_test.nu`: fast sanity test during iteration.
+- `nu tests/verify_improvements.nu`: regression verification pass.
 
 Run commands from repository root (`/home/Designers/.config/zellix`).
 
@@ -31,7 +31,7 @@ Run commands from repository root (`/home/Designers/.config/zellix`).
 
 ## Testing Guidelines
 - Add or update a `test_*.nu` script for new behavior.
-- Prefer focused tests first (`simple_test.nu`), then broader checks (`test_all_improvements.nu`).
+- Prefer focused tests first (`tests/simple_test.nu`), then broader checks (`tests/test_all_improvements.nu`).
 - For REPL-related changes, validate `tests/repl.py` / `tests/repl.nix` paths still work.
 - Ensure no regressions in project/env and theme flows before opening a PR.
 

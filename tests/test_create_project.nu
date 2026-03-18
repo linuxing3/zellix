@@ -5,7 +5,7 @@
 def main [] {
   print "Testing create-project.nu..."
   
-  source plugins/create-project.nu
+  source ../plugins/create-project.nu
   
   # Test with mock data
   let test_project_info = {

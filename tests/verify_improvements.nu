@@ -5,7 +5,7 @@
 def verify-environment-tools [] {
   print "🔧 Verifying environment tools..."
   
-  source plugins/helpers.nu
+  source ../plugins/helpers.nu
   
   # Test 1: load-env-from-record
   let test_env = { TEST_VAR_1: "value1", TEST_VAR_2: "value2" }
@@ -32,7 +32,7 @@ def verify-environment-tools [] {
 def verify-logger [] {
   print "📝 Verifying logger..."
   
-  source plugins/logger-minimal.nu
+  source ../plugins/logger-minimal.nu
   
   init-logger
   log-info "Test info message"
@@ -67,7 +67,7 @@ def verify-project-config [] {
   $config_content | save ($test_dir + "/.zellix/project.nu")
   
   # Test loading
-  source plugins/project.nu
+  source ../plugins/project.nu
   let config = (load-project-config $test_dir)
   
   if ($config != null and $config.name == "verify-project") {
@@ -94,7 +94,7 @@ def verify-project-config [] {
 def verify-direnv-integration [] {
   print "🌿 Verifying direnv integration structure..."
   
-  source plugins/project.nu
+  source ../plugins/project.nu
   
   # Create test directory with .envrc
   let test_dir = "/tmp/zellix-direnv-test"
@@ -119,7 +119,7 @@ def verify-direnv-integration [] {
 def verify-create-project [] {
   print "🛠️  Verifying create-project tool..."
   
-  source plugins/create-project.nu
+  source ../plugins/create-project.nu
   
   # Test that functions exist
   let functions = (view source | lines | grep -E "(def get-project-info|def create-project-config)")

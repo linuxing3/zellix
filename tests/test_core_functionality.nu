@@ -7,7 +7,7 @@ def main [] {
   
   # Test 1: Environment tools
   print "\n1. Testing environment tools..."
-  source plugins/helpers.nu
+  source ../plugins/helpers.nu
   
   # Create test environment
   let test_env = { TEST_A: "value_a", TEST_B: "value_b" }
@@ -22,7 +22,7 @@ def main [] {
   
   # Test 2: Logger initialization
   print "\n2. Testing logger..."
-  source plugins/logger.nu
+  source ../plugins/logger.nu
   
   # Set up test environment
   let-env ZELLIX_LOG_LEVEL = "info"
@@ -54,7 +54,7 @@ def main [] {
     }
   }' | save ($test_dir + "/.zellix/project.nu")
   
-  source plugins/project.nu
+  source ../plugins/project.nu
   let config = (load-project-config $test_dir)
   
   if ($config != null and $config.name == "test-project") {

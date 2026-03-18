@@ -25,17 +25,18 @@ cd ~/.config/zellix
 # Make run script executable
 chmod +x run.nu
 
-# Optional: Link to PATH
-ln -s $(pwd)/run.nu ~/.local/bin/zellix
+# Optional: Link to PATH (or keep the older `zellix` symlink)
+ln -s $(pwd)/run.nu ~/.local/bin/zlx
 ```
 
 ### 3. First Run
 ```bash
-# Start zellix
+# Start the default layout (via nu or the new zlx launcher)
 nu ./run.nu
+zlx
 
-# Or if linked to PATH:
-zellix
+# Later, customize the session with flags
+zlx -d ~/projects/my-app -s dev -l config/zellij/layout_gruvbox.kdl
 ```
 
 ### 4. Configure Helix

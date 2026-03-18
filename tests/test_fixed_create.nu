@@ -6,7 +6,7 @@ def main [] {
   print "Testing create-project-fixed.nu..."
   
   # Test loading the module
-  source plugins/create-project-fixed.nu
+  source ../plugins/create-project-fixed.nu
   
   # Test init function
   init-create-project

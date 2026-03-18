@@ -76,8 +76,8 @@
 - `plugins/logger.nu` - Logging utilities
 - `plugins/create-project.nu` - Project configuration creator
 - `templates/project.nu` - Project configuration template
-- `test_core_functionality.nu` - Core functionality tests
-- `simple_test.nu` - Basic component tests
+- `tests/test_core_functionality.nu` - Core functionality tests
+- `tests/simple_test.nu` - Basic component tests
 - `CHANGELOG.md` - This changelog file
 
 ### Files Modified
@@ -87,7 +87,7 @@
 - `README.md` - Updated documentation
 
 ### Files Removed
-- `test_project_integration.nu` - Replaced with better tests
+- `tests/test_project_integration.nu` - Replaced with better tests
 - `update_logging.nu` - One-time update script
 
 ### Known Issues

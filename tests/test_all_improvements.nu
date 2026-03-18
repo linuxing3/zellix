@@ -5,7 +5,7 @@
 def test-environment-tools [] {
   print "🧪 Testing environment tools..."
   
-  source plugins/helpers.nu
+  source ../plugins/helpers.nu
   
   # Test load-env-from-record
   let test_env = {
@@ -33,7 +33,7 @@ def test-environment-tools [] {
 def test-logger [] {
   print "🧪 Testing logger..."
   
-  source plugins/logger.nu
+  source ../plugins/logger.nu
   
   # Set test log level
   let-env ZELLIX_LOG_LEVEL = "debug"
@@ -91,7 +91,7 @@ def test-project-config-system [] {
   $config_content | save .zellix/project.nu
   
   # Test that config can be loaded
-  source plugins/project.nu
+  source ../plugins/project.nu
   let loaded_config = (load-project-config $test_project)
   
   assert ($loaded_config != null) "Config should be loaded"
@@ -117,7 +117,7 @@ def test-direnv-integration [] {
   echo 'export DIRENV_TEST="success"' | save .envrc
   
   # Test handle-direnv function
-  source plugins/project.nu
+  source ../plugins/project.nu
   
   # Note: direnv allow requires interactive session
   # We'll test the function structure instead
@@ -133,16 +133,18 @@ def test-direnv-integration [] {
 def test-run-nu-integration [] {
   print "🧪 Testing run.nu integration..."
   
-  # Test that run.nu sets required environment variables
-  let test_output = (nu -c "
-    source run.nu '' test-session-123
-    echo \${$env.ZELLIX_SESSION?} \${$env.ZELLIX_PATH?} \${$env.ZELLIX_MOD?}
+  # Test that configuring a session populates the expected environment variables
+  let test_output = (env ZELLIX_MAIN_DISABLED=1 nu -c "
+    source run.nu
+    configure-zellix-env (pwd) test-session-123
+    echo \${$env.ZELLIX_SESSION?} \${$env.ZELLIX_PATH?} \${$env.ZELLIX_MOD?} \${$env.ZELLIX_PROJECT_DIR?}
   " | str trim)
-  
+
   assert ($test_output | str contains "test-session-123") "ZELLIX_SESSION should be set"
   assert ($test_output | str contains "/home/Designers/.config/zellix") "ZELLIX_PATH should be set"
   assert ($test_output | str contains "/plugins") "ZELLIX_MOD should contain plugins"
-  
+  assert ($test_output | str contains "/home/Designers/.config/zellix") "ZELLIX_PROJECT_DIR should point to the repository"
+
   print "✅ run.nu integration test passed"
 }
 
