@@ -2,7 +2,7 @@ export def init-ai [] {}
 
 def main [] {
   if (($env.ZELLIX_TMP? | default "") == "") {
-    zsh -ic codex
+    zsh -ic cursor-agent
     return
   }
 
@@ -11,6 +11,6 @@ def main [] {
   $env.PWD | save -f $ai_cwd_file
 
   with-env { ZELLIX_AI_PANE: "1" } {
-    nu ($env.ZELLIX_PATH | path join "plugins" "editor-shell.nu") "codex"
+    nu ($env.ZELLIX_PATH | path join "plugins" "editor-shell.nu") "cursor-agent"
   }
 }

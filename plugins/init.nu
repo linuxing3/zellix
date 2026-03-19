@@ -1,5 +1,6 @@
 use yazi.nu *
 use nnn.nu *
+use filer.nu *
 use project.nu *
 use ai.nu *
 use makefile.nu *
@@ -20,6 +21,7 @@ def main [] {
   init-logger
   init-yazi
   init-nnn
+  init-filer
   init-project
   init-ai
   init-makefile

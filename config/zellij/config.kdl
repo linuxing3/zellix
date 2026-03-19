@@ -646,7 +646,7 @@ keybinds clear-defaults=true {
         }
         // File browser
         bind "Alt e" {
-            Run "nu" "~/.config/zellix/plugins/nnn.nu" {
+            Run "nu" "~/.config/zellix/plugins/filer.nu" {
                 direction "Down"
             }
             SwitchToMode "Normal"
