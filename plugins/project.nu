@@ -1,48 +1,37 @@
-# Zellix Project Manager with direnv integration
-# Enhanced project switching with environment management
-
 use logger-minimal.nu *
 
 export def init-project [] {
-  # Initialize project manager
   log-info "Project manager initialized"
 }
 
-# Select a project from bookmarks or custom directories
 def select-project [] {
-  # Get list of bookmark names (just basenames, no table formatting)
   try {
-    # Check if NNN_BOOKMARK_DIR exists, otherwise use fallback
-    let configured_bookmark_dir = if ($env.NNN_BOOKMARK_DIR? != null) {
-      ($env.NNN_BOOKMARK_DIR | path expand)
+    let configured = ($env.NNN_BOOKMARK_DIR? | default "" | if ($in | is-not-empty) { $in | path expand } else { "" })
+    let bookmark_dir = if ($configured | is-not-empty) and ($configured | path exists) {
+      $configured
     } else {
-      ""
+      "~/bookmarks" | path expand
     }
-    let bookmark_dir = if ($configured_bookmark_dir != "" and ($configured_bookmark_dir | path exists)) {
-      $configured_bookmark_dir
-    } else {
-      "~/bookmarks" | path expand # Fallback to home directory bookmarks
-    }
-    
+
     if not ($bookmark_dir | path exists) {
       print $"(ansi yellow)Warning: Bookmark directory ($bookmark_dir) does not exist.(ansi reset)"
       print "Creating directory..."
       mkdir $bookmark_dir
     }
-    
+
     let project_entries = (
       ls $bookmark_dir
       | where type in ["dir", "symlink"]
       | each {|x|
           let name = ($x.name | path basename)
           let resolved = (try { realpath $x.name } catch { "" })
-          if ($resolved != "" and ($resolved | path exists)) {
+          if ($resolved | is-not-empty) and ($resolved | path exists) {
             { name: $name, path: $resolved }
           } else {
             null
           }
         }
-      | where $it != null
+      | compact
     )
 
     if ($project_entries | is-empty) {
@@ -50,21 +39,12 @@ def select-project [] {
       return ""
     }
 
-    let project_list = ($project_entries | get name | to text)
-    
-    # Use fzf to select a project (clean output without table borders)
-    let selected = ($project_list | fzf --prompt="Select project: " | str trim)
-    
-    # Return the full path to the selected project
+    let selected = ($project_entries | get name | to text | fzf --prompt="Select project: " | str trim)
+
     if ($selected | is-empty) {
       ""
     } else {
-      (
-        $project_entries
-        | where name == $selected
-        | get path.0?
-        | default ""
-      )
+      $project_entries | where name == $selected | get path.0? | default ""
     }
   } catch {|err|
     print $"(ansi red)Error selecting project: ($err)(ansi reset)"
@@ -72,45 +52,31 @@ def select-project [] {
   }
 }
 
-# Handle direnv integration for project
 def handle-direnv [project_path: string] {
-  if ($project_path | is-empty) {
-    return
-  }
-  
-  let envrc_path = ($project_path + "/.envrc")
-  
+  if ($project_path | is-empty) { return }
+
+  let envrc_path = ($project_path | path join ".envrc")
+
   if ($envrc_path | path exists) {
     print $"(ansi green)Found .envrc at ($project_path)(ansi reset)"
-    
-    # Change to project directory
     cd $project_path
-    
-    # Allow direnv if not already allowed
     try {
       direnv allow
       print "direnv allowed successfully"
     } catch {|err|
       print $"(ansi yellow)Warning: direnv allow failed: ($err)(ansi reset)"
     }
-    
-    # direnv will automatically load environment when we cd
-    # No need to manually export and load
-    
   } else {
     print $"(ansi blue)No .envrc found at ($project_path)(ansi reset)"
     print "You can create one with: echo 'use flake' > .envrc"
   }
 }
 
-# Load project-specific configuration
 def load-project-config [project_path: string] {
-  if ($project_path | is-empty) {
-    return null
-  }
-  
-  let config_path = ($project_path + "/.zellix/project.nu")
-  
+  if ($project_path | is-empty) { return null }
+
+  let config_path = ($project_path | path join ".zellix" "project.nu")
+
   if ($config_path | path exists) {
     try {
       let config = (open --raw $config_path | from nuon)
@@ -130,30 +96,25 @@ use helpers.nu *
 
 def main [] {
   let project_path = select-project
-  
+
   if ($project_path | is-empty) {
     print "No project selected"
     exit 0
   }
-  
+
   print $"(ansi cyan)Selected project: ($project_path)(ansi reset)"
-  
-  # Handle direnv integration
+
   handle-direnv $project_path
-  
-  # Load project configuration
+
   let project_config = load-project-config $project_path
-  
-  # Set project-specific environment variables
+
   if ($project_config != null) {
-    # Check if config has env field and it's a record
     if ($project_config | get --optional env | is-not-empty) and ($project_config.env | describe | str contains "record") {
       use helpers.nu load-env-from-record
       load-env-from-record $project_config.env
       print $"Set ($project_config.env | columns | length) project-specific environment variables"
     }
   }
-  
-  # Send to helix and open file picker in one pass to avoid double floating-pane toggles.
+
   send-to-helix ":e ." $project_path
 }

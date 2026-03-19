@@ -1,4 +1,4 @@
-export def init-terminal [] {}
+export def init-neomutt [] {}
 
 def main [] {
   neomutt -- (contact)

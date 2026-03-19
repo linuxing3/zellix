@@ -1,4 +1,4 @@
-export def init-git [] {}
+export def init-markdown [] {}
 
 def main [ filepath: string ] {
   let choice = ([ glow lowdown bat ] | input list )

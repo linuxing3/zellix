@@ -1,18 +1,8 @@
-export def init-zk [] {
-}
-
-def generate-command [ ] {
-
-  mut command_list = [ "xmodmap" ("~/.config/X11/xmodmap" | path expand) ] | str join " "
-
-  $command_list
-}
+export def init-remap [] {}
 
 def main [] {
-
-  let command_str: string = generate-command 
-  print $"(ansi cb)Command: ($command_str)(ansi reset)"
-  nu -c $command_str
-
+  let xmodmap_path = ("~/.config/X11/xmodmap" | path expand)
+  print $"(ansi cb)Command: xmodmap ($xmodmap_path)(ansi reset)"
+  ^xmodmap $xmodmap_path
   print $"(ansi cb)Done!(ansi reset)"
 }
